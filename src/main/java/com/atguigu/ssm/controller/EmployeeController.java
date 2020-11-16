@@ -10,10 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -30,6 +27,38 @@ public class EmployeeController {
 
     @Autowired
     EmployeeService employeeService;
+
+
+/*
+ *@description: 员工更新方法
+ *@author: Administrator
+ *@date: 2020/11/16 20:58
+* @param: employee
+*@return: com.atguigu.ssm.bean.Msg
+*/
+    @ResponseBody
+    @RequestMapping(value = "/emp/{empId}",method = RequestMethod.PUT)
+    public Msg saveEmp(Employee employee){
+
+        employeeService.updateEmp(employee);
+        return Msg.success();
+    }
+
+
+
+/**
+ *@description: 根据id查询员工
+ *@author: Administrator
+ *@date: 2020/11/16 20:35
+* @param: id
+*@return: com.atguigu.ssm.bean.Msg
+*/
+    @ResponseBody
+    @RequestMapping(value = "/emp/{id}",method = RequestMethod.GET)
+    public Msg getEmp(@PathVariable("id") Integer id){
+        Employee employee = employeeService.getEmp(id);
+        return Msg.success().add("emp",employee);
+    }
 
 /**
  *@description: 校验用户名是否可用
