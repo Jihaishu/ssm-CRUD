@@ -71,7 +71,7 @@ public class EmployeeService {
     }
 
     /**
-     *@description: 员工删除
+     *@description: 单个员工删除
      *@author: Administrator
      *@date: 2020/11/16 22:21
     * @param: id
@@ -79,5 +79,20 @@ public class EmployeeService {
     */
     public void deleteEmp(Integer id) {
         employeeMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     *@description: 批量员工删除方法
+     *@author: Administrator
+     *@date: 2020/11/17 0:07
+    * @param: ids
+    *@return: void
+    */
+    public void deleteBatch(List<Integer> ids) {
+        EmployeeExample example = new EmployeeExample();
+
+        EmployeeExample.Criteria criteria = example.createCriteria();
+        criteria.andEmpIdIn(ids);
+        employeeMapper.deleteByExample(example);
     }
 }
