@@ -28,6 +28,20 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
+/**
+ *@description: 单个员工删除方法
+ *@author: Administrator
+ *@date: 2020/11/16 22:23
+* @param: id
+*@return: com.atguigu.ssm.bean.Msg
+*/
+    @ResponseBody
+    @RequestMapping(value = "/emp/{id}",method = RequestMethod.DELETE)
+    public Msg deleteEmpById(@PathVariable("id") Integer id){
+        employeeService.deleteEmp(id);
+        return Msg.success();
+    }
+
 
 /*
  *@description: 员工更新方法
