@@ -57,4 +57,16 @@ public class EmployeeService {
         Employee employee = employeeMapper.selectByPrimaryKey(id);
         return employee;
     }
+
+
+    /**
+     *@description: 员工更新
+     *@author: Administrator
+     *@date: 2020/11/16 20:38
+    * @param: employee
+    *@return: void
+    */
+    public void updateEmp(Employee employee) {
+        employeeMapper.updateByPrimaryKeySelective(employee);
+    }
 }

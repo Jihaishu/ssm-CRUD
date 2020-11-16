@@ -194,7 +194,8 @@
 
 </div>
 <script type="text/javascript">
-    var totalRecord;
+
+    var totalRecord,currentPage;
     // 1.页面加载完成后，直接发送一个ajax请求，取到分页数据
     $(function () {
         //去首页
@@ -253,6 +254,7 @@
             "总" + result.extend.pageInfo.pages + "页, " +
             "总" + result.extend.pageInfo.total + "条记录");
         totalRecord = result.extend.pageInfo.total;
+        currentPage = result.extend.pageInfo.pageNum;
     }
 
     //解析显示分页条,点击分页要能去到下一页....
@@ -370,7 +372,7 @@
 
             // $("#email_add_input").parent().addClass("has-success");
             // $("#email_add_input").next("span").text("");
-        }
+        };
         return true;
     }
 
@@ -502,6 +504,8 @@
         // 0、查出员工信息，显示员工信息
         getEmp($(this).attr("edit-id"));
 
+        // 把员工的id传递给模态框的更新按钮
+        $("#emp_update_btn").attr("edit-id",$(this).attr("edit-id"));
 
         $("#empUpdateModal").modal({
             backdrop: "static"
@@ -520,11 +524,36 @@
                 $("#empUpdateModal input[name = gender]").val([empData.gender]);
                 $("#empUpdateModal select").val([empData.dId]);
             }
-
-
         });
-
     }
+
+    //点击更新按钮，更新员工信息
+    $("#emp_update_btn").click(function () {
+    //验证邮箱是否合法
+        var email = $("#email_update_input").val();
+        var regEmail = /^([a-zA-Z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        if (!regEmail.test(email)){
+            show_validate_msg("#email_update_input","error","邮箱格式不正确");
+
+            return false;
+        }else {
+            show_validate_msg("#email_update_input","success","");
+        }
+
+        //发送ajax请求，保存更新的员工数据
+        $.ajax({
+            url:"<%=request.getContextPath()%>/emp/"+$(this).attr("edit-id"),
+            type:"PUT",
+            data:$("#empUpdateModal form").serialize(),
+            success:function (result) {
+                // alert(result.msg);
+                // 1.关闭模态框
+                $("#empUpdateModal").modal("hide");
+                // 2.回到本页面
+                to_page(currentPage);
+            }
+        });
+    });
 
 </script>
 </body>

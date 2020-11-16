@@ -28,6 +28,31 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
+
+/*
+ *@description: 员工更新方法
+ *@author: Administrator
+ *@date: 2020/11/16 20:58
+* @param: employee
+*@return: com.atguigu.ssm.bean.Msg
+*/
+    @ResponseBody
+    @RequestMapping(value = "/emp/{empId}",method = RequestMethod.PUT)
+    public Msg saveEmp(Employee employee){
+
+        employeeService.updateEmp(employee);
+        return Msg.success();
+    }
+
+
+
+/**
+ *@description: 根据id查询员工
+ *@author: Administrator
+ *@date: 2020/11/16 20:35
+* @param: id
+*@return: com.atguigu.ssm.bean.Msg
+*/
     @ResponseBody
     @RequestMapping(value = "/emp/{id}",method = RequestMethod.GET)
     public Msg getEmp(@PathVariable("id") Integer id){
