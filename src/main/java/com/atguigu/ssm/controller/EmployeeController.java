@@ -26,6 +26,33 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
+/**
+ *@description: 校验用户名是否可用
+ *@author: Administrator
+ *@date: 2020/11/16 14:06
+* @param: empName
+*@return: com.atguigu.ssm.bean.Msg
+*/
+    @ResponseBody
+    @RequestMapping("/checkuser")
+    public Msg checkuser(@RequestParam("empName") String empName){
+        //先判断用户名是否是合法的表达式
+        String regx = "(^[a-zA-Z0-9_-]{6,16}$)|(^[\\u2E80-\\u9FFF]{2,5})" ;
+        if (!empName.matches(regx)) {
+            return Msg.fail().add("va_msg","用户名必须是6-16位英文和数字的组合或者是2-5位中文");
+        }
+
+        //用户名数据库重复校验
+        boolean b = employeeService.checkUser(empName);
+        if (b) {
+            return Msg.success();
+        }else {
+            return Msg.fail().add("va_msg","用户名不可用");
+
+        }
+    }
+
+
 //员工保存 ：POST请求
 
     @RequestMapping(value = "/emp",method = RequestMethod.POST)
