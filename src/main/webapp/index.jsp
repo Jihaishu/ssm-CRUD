@@ -551,6 +551,7 @@
                 $("#empUpdateModal").modal("hide");
                 // 2.回到本页面
                 to_page(currentPage);
+                // 修改方法完成
             }
         });
     });
